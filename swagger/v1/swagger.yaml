@@ -1,0 +1,195 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/signup":
+    post:
+      summary: Signup a new user
+      tags:
+      - Auth
+      parameters: []
+      responses:
+        '201':
+          description: user created
+        '422':
+          description: invalid parameters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+  "/auth/login":
+    post:
+      summary: Login a user
+      tags:
+      - Auth
+      parameters: []
+      responses:
+        '200':
+          description: user logged in
+        '401':
+          description: invalid credentials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+  "/auth/logout":
+    get:
+      summary: Logout the user
+      tags:
+      - Auth
+      responses:
+        '204':
+          description: logout successful
+  "/todos":
+    get:
+      summary: List all todos
+      tags:
+      - Todos
+      responses:
+        '200':
+          description: todos found
+    post:
+      summary: Create a new todo
+      tags:
+      - Todos
+      parameters: []
+      responses:
+        '201':
+          description: todo created
+        '422':
+          description: validation failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+  "/todos/{id}":
+    get:
+      summary: Get a todo
+      tags:
+      - Todos
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: todo found
+        '404':
+          description: todo not found
+    put:
+      summary: Update a todo
+      tags:
+      - Todos
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: todo updated
+        '404':
+          description: todo not found
+    delete:
+      summary: Delete a todo
+      tags:
+      - Todos
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: todo deleted
+        '404':
+          description: todo not found
+  "/todos/{id}/items/{iid}":
+    get:
+      summary: Get a todo item
+      tags:
+      - Todos
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: iid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: todo item found
+        '404':
+          description: todo item not found
+    put:
+      summary: Update a todo item
+      tags:
+      - Todos
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: iid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: todo item updated
+        '404':
+          description: todo item not found
+    delete:
+      summary: Delete a todo item
+      tags:
+      - Todos
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: iid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: todo item deleted
+        '404':
+          description: todo item not found
+  "/todos/{id}/items":
+    post:
+      summary: Create a new todo item
+      tags:
+      - Todos
+      parameters: []
+      responses:
+        '201':
+          description: todo item created
+        '422':
+          description: validation failed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+servers:
+- url: http://localhost:3000
+  description: Local development server
