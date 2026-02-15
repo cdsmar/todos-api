@@ -56,7 +56,7 @@ end
 
 group :test do
   gem 'factory_bot_rails', '~> 6.0'
-  gem 'shoulda-matchers', '~> 5.0'
+  gem 'shoulda-matchers', '~> 7.0'
   gem 'faker', '~> 2.23'
   gem 'database_cleaner-active_record'
   gem 'bcrypt', '~> 3.1.18'
