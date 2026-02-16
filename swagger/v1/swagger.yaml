@@ -19,7 +19,26 @@ paths:
         content:
           application/json:
             schema:
-              type: string
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+              required:
+              - name
+              - email
+              - password
+              - password_confirmation
+              example:
+                name: Sophia Brown
+                email: sophia@gmail.com
+                password: password123
+                password_confirmation: password123
   "/auth/login":
     post:
       summary: Login a user
@@ -35,7 +54,18 @@ paths:
         content:
           application/json:
             schema:
-              type: string
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
+              example:
+                email: sophia@gmail.com
+                password: password123
   "/auth/logout":
     get:
       summary: Logout the user
@@ -66,18 +96,29 @@ paths:
         content:
           application/json:
             schema:
-              type: string
+              type: object
+              properties:
+                title:
+                  type: string
+                created_by:
+                  type: integer
+              required:
+              - title
+              - created_by
+              example:
+                title: Buy groceries
+                created_by: 1
   "/todos/{id}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
     get:
       summary: Get a todo
       tags:
       - Todos
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
       responses:
         '200':
           description: todo found
@@ -87,109 +128,107 @@ paths:
       summary: Update a todo
       tags:
       - Todos
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
+      parameters: []
       responses:
         '200':
           description: todo updated
-        '404':
-          description: todo not found
-    delete:
-      summary: Delete a todo
-      tags:
-      - Todos
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '204':
-          description: todo deleted
-        '404':
-          description: todo not found
-  "/todos/{id}/items/{iid}":
-    get:
-      summary: Get a todo item
-      tags:
-      - Todos
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: iid
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: todo item found
-        '404':
-          description: todo item not found
-    put:
-      summary: Update a todo item
-      tags:
-      - Todos
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: iid
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '200':
-          description: todo item updated
-        '404':
-          description: todo item not found
-    delete:
-      summary: Delete a todo item
-      tags:
-      - Todos
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: iid
-        in: path
-        required: true
-        schema:
-          type: string
-      responses:
-        '204':
-          description: todo item deleted
-        '404':
-          description: todo item not found
-  "/todos/{id}/items":
-    post:
-      summary: Create a new todo item
-      tags:
-      - Todos
-      parameters: []
-      responses:
-        '201':
-          description: todo item created
-        '422':
-          description: validation failed
       requestBody:
         content:
           application/json:
             schema:
-              type: string
+              type: object
+              properties:
+                title:
+                  type: string
+                created_by:
+                  type: integer
+              example:
+                title: Buy groceries and milk
+                created_by: 1
+    delete:
+      summary: Delete a todo
+      tags:
+      - Todos
+      responses:
+        '204':
+          description: todo deleted
+  "/todos/{id}/items":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    post:
+      summary: Create a new todo item
+      tags:
+      - Items
+      parameters: []
+      responses:
+        '201':
+          description: item created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                done:
+                  type: boolean
+              required:
+              - name
+              example:
+                name: Buy milk
+                done: false
+  "/todos/{id}/items/{iid}":
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    - name: iid
+      in: path
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: Get a todo item
+      tags:
+      - Items
+      responses:
+        '200':
+          description: item found
+    put:
+      summary: Update a todo item
+      tags:
+      - Items
+      parameters: []
+      responses:
+        '200':
+          description: item updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                done:
+                  type: boolean
+              example:
+                name: Buy milk and bread
+                done: true
+    delete:
+      summary: Delete a todo item
+      tags:
+      - Items
+      responses:
+        '204':
+          description: item deleted
 servers:
 - url: http://localhost:3000
   description: Local development server
