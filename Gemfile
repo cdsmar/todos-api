@@ -59,5 +59,5 @@ group :test do
   gem 'shoulda-matchers', '~> 5.0'
   gem 'faker', '~> 2.23'
   gem 'database_cleaner-active_record'
-  gem 'bcrypt', '~> 3.1.18'
+  gem 'bcrypt', '~> 3.1.22'
 end
